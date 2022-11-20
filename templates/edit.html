@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 style="width: 100%">
+        {% block title %} Edit {{ book.title }}
+                               {{ book.author }}'s Details
+        {% endblock %}
+    </h1>
+    <form method="post">
+        <p>
+            <label for="title">Title</label>
+            <input type="text" name="title"
+                   value={{ book.title }}
+                   placeholder="Title">
+            </input>
+        </p>
+
+        <p>
+            <label for="author">Author</label>
+            <input type="text" name="author"
+                   value={{ book.author }}
+                   placeholder="Author">
+            </input>
+        </p>
+
+        <p>
+            <label for="page">page</label>
+            <input type="number" name="page"
+                   value={{ book.pages_num }}
+                   placeholder="Page">
+            </input>
+        </p>
+
+        <p>
+        <label for="bio">Review</label>
+        <br>
+        <textarea name="review"
+                  placeholder="Review"
+                  rows="15"
+                  cols="60"
+                  >{{ book.review }}</textarea>
+        </p>
+        <p>
+            <button type="submit">Submit</button>
+        </p>
+    </form>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 style="width: 100%">{% block title %} Add a New Student {% endblock %}</h1>
+    <form method="post">
+        <p>
+            <label for="Title">Title</label>
+            <input type="text" name="title"
+                   placeholder="Title">
+            </input>
+        </p>
+
+        <p>
+            <label for="Author">Author</label>
+            <input type="text" name="author"
+                   placeholder="author">
+            </input>
+        </p>
+
+        <p>
+            <label for="page">page</label>
+            <input type="number" name="page"
+                   placeholder="Page">
+            </input>
+        </p>
+
+        <p>
+        <label for="review">Review</label>
+        <br>
+        <textarea name="review"
+                  placeholder="review"
+                  rows="15"
+                  cols="60"
+                  ></textarea>
+        </p>
+        <p>
+            <button type="submit">Submit</button>
+        </p>
+    </form>
+{% endblock %}

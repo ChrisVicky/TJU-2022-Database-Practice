@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="title">{% block title %} Books {% endblock %}</h1>
+<div class="content">
+  {% for book in books %}
+  <div class="book">
+    <p><b>#{{ book.id }}</b></p>
+    <b>
+      <p class="name">
+      <a href="{{ url_for('getBook', id=book.id)}}">
+        {{book.title}} {{book.author}}
+      </a>
+      </p>
+      <p class="name">{{ book.Title }} BY {{ book.author }}</p>
+    </b>
+    <p>{{ book.id }}</p>
+    <p>Joined: {{ book.date_added}}</p>
+    <div class="bio">
+      <h4>Review</h4>
+      <p>{{ book.review }}</p>
+    </div>
+      <a href="{{ url_for('editReview', id=book.id) }}">Edit</a>
+      <hr>
+      <form method="POST"
+                action="{{ url_for('deleteReview', id=book.id) }}">
+            <input type="submit" value="Delete Book Review"
+                onclick="return confirm('Are you sure you want to delete this entry?')">
+        </form>     
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
