@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<span class="title">
+	<h1>{% block title %} {{ post.title }} {% endblock %}</h1>
+	<h2> posted by: {{ post.author }}</h2>
+	<p>at: {{ post.date }}</p>
+</span>
+<div class="content">
+	<div class="post">
+
+		<a href="{{ url_for('postpage.postIndex', id=post.id)}}">
+			<p><b>#{{ post.id }} comments: {{post.commentcount}}, answers: {{post.answercount}}</b></p>
+		</a>
+		<h3>content</h3>
+		<div class="bio">
+			{% autoescape false %}
+			{{ post.body  }}
+			{% endautoescape %}
+		</div>
+		<h3>comment</h3>
+		{%for comment in post.comment_list%}
+		<div class="comment">
+			<p>{{comment.date}} - <b>{{comment.displayname}}:</b> {{comment.text}}</p>
+		</div>
+		{%endfor%}
+	</div>
+</div>
+
+{%- for p in post.answers recursive%}
+<p>Answered on: {{ p.date }}</p>
+<div class="content">
+	<div class="post">
+
+		<a href="{{ url_for('postpage.postIndex', id=p.id)}}">
+			<p><b>#{{ p.id }} comments: {{p.commentcount}}, answers: {{p.answercount}}</b></p>
+		</a>
+		<h4>content</h4>
+		<div class="bio">
+			{% autoescape false %}
+			{{ p.body  }}
+			{% endautoescape %}
+		</div>
+		<h3>comment</h3>
+		{%for comment in p.comment_list%}
+		<div class="comment">
+			<p>{{comment.date}} - <b>{{comment.displayname}}:</b> {{comment.text}}</p>
+		</div>
+		{%endfor%}
+	</div>
+	{%if p.answers %}
+	{{loop(p.answers)}}
+	{%endif%}
+</div>
+{% endfor %}
+{% endblock %}

@@ -1,5 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+     equationNumbers: {  autoNumber: "AMS"  },
+     extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+  }
+});
+</script>
+<script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+      processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
 <head>
     <meta charset="UTF-8">
     <title>{% block title %} {% endblock %} - FlaskApp</title>
@@ -16,12 +38,18 @@
             flex-wrap: wrap;
         }
 
-        .student {
+        .post{
             flex: 20%;
             padding: 10px;
             margin: 5px;
             background-color: #f3f3f3;
             inline-size: 100%;
+        }
+        .comment {
+            padding: 10px;
+            margin: 5px;
+            background-color: #ffffff;
+            color: #004835;
         }
 
         .bio {
@@ -46,9 +74,11 @@
 </head>
 <body>
     <nav>
-        <a href="{{ url_for('index') }}">FlaskApp</a>
-        <a href="{{ url_for('create')}}">Create</a>
-        <a href="#">About</a>
+        <a href="{{ url_for('mainpage.index') }}">Home</a>
+	<a href="{{ url_for('mainpage.aboutme') }}">About</a>
+	<a href="{{ url_for('postpage.postPage') }}">Posts</a>
+	<a href="{{ url_for('loginpage.login') }}">Login</a>
+	<a href="{{ url_for('userpage.userIndex') }}">User</a>
     </nav>
     <hr>
     <div class="content">

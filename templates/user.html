@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<span class="title">
+	<h1>{% block title %} {{ user.displayname }} {% endblock %}</h1>
+	<p>joint at: {{ user.date }}</p>
+</span>
+<div class="content">
+	<div class="post">
+		<p><b>#{{ user.id }} reputation: {{user.reputation}}, location: {{user.location}}</b></p>
+		<h3>user {{ user.displayname }}</h3>
+		<div class="bio">
+			{% autoescape false %}
+			{{ user.aboutme }}
+			{% endautoescape %}
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+

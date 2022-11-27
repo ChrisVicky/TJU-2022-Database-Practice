@@ -1,16 +1,42 @@
 from flask import Blueprint, Flask, render_template, request, url_for, redirect
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import func
-from models import db
-from models import profanity
+# from flask_sqlalchemy import SQLAlchemy
+# from sqlalchemy.sql import func
+# from ..models import db
+# from ..models import profanity
+from api.service import PostService
+from api.service import CommentService
+from utils import log
 
-app = Blueprint('api', __name__)
 
-@app.route('/')
-def index():
-    return render_template('hello.html')
-    # all_books = books.query.all()
-    # return render_template('index.html', books=all_books)
+postpage = Blueprint('postpage', __name__)
+
+pagelimit = 12
+
+
+##
+# @brief Post Main Page
+@postpage.route('/')
+@postpage.route('/page/<int:id>')
+def postPage(id=1):
+    if id <= 0:
+        id = 1
+    error_code, page_num, each_page, total_page, post_list = PostService.getAllPost(id-1, pagelimit)
+    if error_code:
+        return render_template('500.html', msg=page_num)
+    return render_template('posts.html', currPage=page_num, totalRecords=each_page, totalPage=total_page, posts=post_list)
+
+
+##
+# @brief Individual Post Page
+@postpage.route('/<int:id>')
+def postIndex(id):
+    errorcode, post = PostService.getPost(id)
+    if errorcode==1:
+        return render_template('500.html', msg=post)
+    log(f"comment_list: {len(post.comment_list)}")
+    return render_template('post.html', post=post)
+
+
 
 # @app.route('/<int:id>/')
 # def getBook(id):

@@ -2,7 +2,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 from models import db
 import config
-from api import app as api
+from api.api import mainpage
+from api.posts import postpage
+from api.login import loginpage
+from api.users import userpage
+from flaskext.markdown import Markdown
 
 
 def create_app():
@@ -17,6 +21,8 @@ def create_app():
     configure_before_handlers(app)
     configure_after_handlers(app)
     configure_errorhandlers(app)
+    # 添加 Markdown 解释器
+    Markdown(app)
 
     return app
 
@@ -29,7 +35,10 @@ def configure_app(app, config_class):
 
 def configure_blueprints(app):
     # 注册 blueprint
-    app.register_blueprint(api, url_prefix='/api')
+    app.register_blueprint(mainpage, url_prefix='/')
+    app.register_blueprint(postpage, url_prefix='/post')
+    app.register_blueprint(loginpage, url_prefix='/login')
+    app.register_blueprint(userpage, url_prefix='/user')
 
 
 def configure_extensions(app):
