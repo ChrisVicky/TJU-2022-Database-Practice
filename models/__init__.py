@@ -68,4 +68,22 @@ def exec_pro(schema, proc, params):
     return 
 
 
+##
+# @brief Deprecated
+#
+# @param model
+# @param filter
+#
+# @return 
+def delete_pro(model, filter):
+    session= db.session()
+    try:
+        session.query(model).filter(filter).delete()
+        session.commit()
+    except Exception as e:
+        raise e
+    finally:
+        session.close()
+    return
+
 

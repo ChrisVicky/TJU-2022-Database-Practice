@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 from models import db
 import config
-from api.api import mainpage
+from api import mainpage
 from api.posts import postpage
 from api.login import loginpage
 from api.users import userpage

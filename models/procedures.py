@@ -1,9 +1,16 @@
-from sqlalchemy import String
+##
+# @file procedures.py
+# @brief APIs for Running Procedures defined in Postgresql by LCF
+# @author Christopher Liu
+# @version 1.0
+# @date 2022-11-29
+
 from . import exec_pro
-from posts import Posts
-from users import Users
+from models.posts import Posts
+from models.users import Users
 from utils import getCurrentTimeStamp
 
+# two schemas
 SE = "StackExchange"
 CM = "Common"
 
@@ -15,10 +22,10 @@ CM = "Common"
 #
 # @param field_id:int
 # @param post_id:int
-# @param tag:String
+# @param tag:str
 #
 # @return 
-def add_tag(field_id:int, post_id:int, tag:String):
+def add_tag(field_id:int, post_id:int, tag:str):
     params = (field_id, post_id, tag)
     exec_pro(SE, "add_tag", params)
 
@@ -35,7 +42,7 @@ def add_tag(field_id:int, post_id:int, tag:String):
 # @param user:Users     -- who perform the alter
 #
 # @return 
-def alter_post(old_post:Posts, title:String, tags:String, body:String, user:Users):
+def alter_post(old_post:Posts, title:str, tags:str, body:str, user:Users):
     date = getCurrentTimeStamp()
     params = (user.fieldid, old_post.id, title, tags, body, user.id, date)
     exec_pro(SE, "alter_post", params)
@@ -48,11 +55,11 @@ def alter_post(old_post:Posts, title:String, tags:String, body:String, user:User
 #
 # @param field_id:int
 # @param parent_post_id:int
-# @param body:String
+# @param body:str
 # @param user_id:int
 #
 # @return NONE
-def answer_post(field_id:int, parent_post_id:int, body:String, user_id:int):
+def answer_post(field_id:int, parent_post_id:int, body:str, user_id:int):
     date = getCurrentTimeStamp()
     params = (field_id, parent_post_id, body, user_id, date)
     exec_pro(SE, "answer_post", params)
@@ -65,10 +72,10 @@ def answer_post(field_id:int, parent_post_id:int, body:String, user_id:int):
 # @param fid:int        -- field id
 # @param pid:int        -- post id
 # @param uid:int        -- user id
-# @param body:String    -- comment
+# @param body:str    -- comment
 #
 # @return None
-def create_comment(fid:int, pid:int, uid:int, body:String):
+def create_comment(fid:int, pid:int, uid:int, body:str):
     date = getCurrentTimeStamp()
     params = (fid, pid, uid, body, date)
     exec_pro(SE, "create_comment", params)
@@ -80,13 +87,13 @@ def create_comment(fid:int, pid:int, uid:int, body:String):
 # @brief Create New Post
 #
 # @param fid:int
-# @param title:String
-# @param tags:String
-# @param body:String
+# @param title:str
+# @param tags:str
+# @param body:str
 # @param uid:int
 #
 # @return 
-def create_new_post(fid:int, title:String, tags:String, body:String, uid:int):
+def create_new_post(fid:int, title:str, tags:str, body:str, uid:int):
     date = getCurrentTimeStamp()
     params = (fid, title, tags, body, uid, date)
     exec_pro(SE, "create_new_post", params)
@@ -99,12 +106,12 @@ def create_new_post(fid:int, title:String, tags:String, body:String, uid:int):
 # @brief 
 #
 # @param fid:int
-# @param nickname:String
-# @param username:String
-# @param password:String
+# @param nickname:str
+# @param username:str
+# @param password:str
 #
 # @return 
-def create_user(fid:int, nickname:String, username:String, password:String):
+def create_user(fid:int, nickname:str, username:str, password:str):
     date = getCurrentTimeStamp()
     params = (fid, date, nickname, username, password)
     exec_pro(SE, "create_user", params)
@@ -203,10 +210,10 @@ def downvote(pid:int, fid:int):
 #
 # @param fid:int
 # @param pid:int
-# @param tag:String
+# @param tag:str
 #
 # @return 
-def remove_tag(fid:int, pid:int, tag:String):
+def remove_tag(fid:int, pid:int, tag:str):
     params = (fid, pid, tag)
     exec_pro(SE,"remove_tag",params)
 

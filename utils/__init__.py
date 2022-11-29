@@ -26,3 +26,21 @@ def u_from_fu(fuid:int):
 
 def f_from_fu(fuid:int):
     return int(fuid/N)
+
+
+
+"""
+<deep-learning><convolutional-neural-networks><pooling><max-pooling>
+"""
+def tag2tag(tags:str):
+    tags = tags.replace('>', '')
+    tags = tags[1:]
+    ret = tags.split('<')
+    return ret
+
+
+
+
+
+
+
