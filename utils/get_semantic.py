@@ -1,3 +1,11 @@
+##
+# @file get_semantic.py
+# @brief Deprecated -- API is not free
+# @author Christopher Liu
+# @version 1.0
+# @date 2022-11-29
+
+
 import requests
 from retry import retry
 import numpy as np
@@ -11,6 +19,12 @@ headers = {"Authorization": f"Bearer {hf_token}"}
 
 
 @retry(tries=5, delay=20)
+##
+# @brief Deprecated
+#
+# @param List[str]
+#
+# @return 
 def get_embedding(texts: List[str]) -> np.ndarray:
     """
     Query the API for embeddings

@@ -1,12 +1,9 @@
 from utils import log, tag2tag
 from models.procedures import add_tag
 from models.posts import Posts
-from sqlalchemy import update
 from models import db
-from utils.get_semantic import get_embedding
 from models.semantic_embeddings import SemanticEmbeddings
-from time import sleep
-from utils import fu_in_one
+from utils.ML import get_emb
 ##
 # @brief Move all tags in table posts to table tags without removing tag columns
 #
@@ -54,27 +51,27 @@ def insert_embeddings():
     erc = 0
     titles = []
     validposts = []
+    skp = 0
     for offset in range(total_num):
         posts = Posts.query.filter(Posts.title!=None).limit(limit).offset(offset*limit).all()
-        counts = SemanticEmbeddings.query.count()
-
-        log(f"{offset}/{total_num} erc: {erc}, lentitle: {len(titles)}, lenvalid: {len(validposts)}, counts: {counts}")
 
         # Check Posts -- Some posts have been done before
         for p in posts:
             segm = SemanticEmbeddings.query.filter(SemanticEmbeddings.fieldid==p.fieldid, SemanticEmbeddings.postid==p.id).first()
             if segm is not None:
-                log(f"{p.fieldid}, {p.id} embeded before")
+#                 log(f"{p.fieldid}, {p.id} embeded before")
+                skp = skp + 1
             else:
                 validposts.append(p)
                 titles.append(p.title)
 
         if len(titles) >= limit*limit:
             try:
-                titles_em = get_embedding(titles)
+                titles_em = get_emb(titles)
             except Exception as e:
-                sleep(3600)
-                titles_em = get_embedding(titles)
+                log(f"error accur {e}")
+                titles_em = get_emb(titles)
+                pass 
             for index,p in enumerate(validposts):
                 try:
                     input = SemanticEmbeddings(fieldid=p.fieldid, postid=p.id, embedding=titles_em[index])
@@ -85,8 +82,11 @@ def insert_embeddings():
                     erc = erc + 1
                     pass
             db.session.commit()
+            counts = SemanticEmbeddings.query.count()
+            log(f"{offset}/{total_num} erc: {erc}, lentitle: {len(titles)}, lenvalid: {len(validposts)}, counts: {counts}, skp: {skp}")
             titles = []
             validposts = []
         else:
             pass
+
 
