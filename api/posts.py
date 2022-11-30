@@ -110,5 +110,14 @@ def postEdit(pid, fid):
         return redirect(url_for('postpage.postIndex', id=post.id, fid=post.fieldid))
     return render_template('editPost.html', post=post)
 
+@postpage.route("/top/")
+@postpage.route("/top/page/<int:id>")
+def postTop(id=1):
+    if id <= 0:
+        id = 1
+    error_code, page_num, each_page, total_page, post_list = PostService.getTopPost(id-1, pagelimit)
+    if error_code:
+        return render_template('500.html', msg=page_num)
+    return render_template('hotposts.html', currPage=page_num, totalRecords=each_page, totalPage=total_page, posts=post_list)
 
 

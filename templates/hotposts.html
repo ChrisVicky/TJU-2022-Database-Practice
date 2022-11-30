@@ -1,0 +1,40 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="title">{% block title %} 熱榜 {% endblock %}</h1>
+
+<div class="content">
+	{% for post in posts%}
+	<div class="post">
+		<p></p>
+		<b>
+			<p class="name">
+			<a href="{{ url_for('postpage.postIndex', id=post.id, fid=post.fieldid)}}">
+				{% autoescape false %}
+				<h2># {{ post.title }}
+				</h2>
+				{% endautoescape %}
+			</a>
+			<p># {{ post.id }}</p>
+			by {{post.author}}
+			</p>
+		</b>
+		<p>Posted on: {{ post.date }}</p>
+		<p>Answers: {{ post.answercount}}</p>
+		<p>Comments: {{ post.commentcount}}</p>
+	</div>
+	{% endfor %}
+	<div style='text-align:right'>
+		<span>共{{totalRecords}}个結果 - 當前第{{currPage}}頁 - 共{{totalPage}}頁</span>
+		<a style="margin-left: 5px;" {{ disabled4Pre }} href="{{ url_for('postpage.postTop', id=currPage-1)}}">
+			上一页
+		</a>
+		<a style="margin-left: 5px;" {{ disabled4Next }} href="{{ url_for('postpage.postTop', id=currPage+1)}}">
+			下一页
+		</a>
+
+	</div>
+</div>
+
+{% endblock %}

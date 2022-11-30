@@ -12,6 +12,8 @@ from models.users import Users
 from api.service import CommentService
 from utils import translateTime, log
 from api.service import TagService
+from models.top import Top
+from models import db
 
 
 ##
@@ -148,3 +150,22 @@ def getPostsByUserId(fid, uid):
         # p.answercount = Posts.query.filter(Posts.parentid==p.id, Posts.fieldid==p.fieldid).count()
         # p.commentcount = Comments.query.filter(Comments.postid==p.id, Comments.fieldid==p.fieldid).count()
     return posts
+
+
+def getTopPost(offset:int=0, limit:int=10):
+    try:
+        post_list = Top.query.filter(Top.parentid==None).order_by(Top.creationdate.desc()).limit(limit).offset(offset*limit).all()
+        total_post = Top.query.count()
+        total_page = int(total_post / limit)
+
+        db.session.close()
+        for p in post_list:
+            p.author = Users.query.filter(Users.id==p.owneruserid, Users.fieldid==p.fieldid).first().displayname
+            p.date = translateTime(p.creationdate)
+            # p.answercount = Posts.query.filter(Posts.parentid==p.id, Posts.fieldid==p.fieldid).count()
+            # p.commentcount = Comments.query.filter(Comments.postid==p.id, Comments.fieldid==p.fieldid).count()
+        return 0, offset+1, limit, total_page, post_list
+    except Exception as e:
+        return 1, e, None, None, None
+
+

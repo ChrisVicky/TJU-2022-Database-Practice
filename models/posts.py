@@ -13,7 +13,9 @@
  owneruserid           | integer |           |          |
  lasteditoruserid      | integer |           |          |
  lasteditdate          | integer |           |          |
- lastactivitydate      | integer |           |          | title                 | text    |           |          | tags                  | text    |           |          |
+ lastactivitydate      | integer |           |          | 
+ title                 | text    |           |          | 
+ tags                  | text    |           |          |
  answercount           | integer |           |          |
  commentcount          | integer |           |          |
  favoritecount         | integer |           |          |

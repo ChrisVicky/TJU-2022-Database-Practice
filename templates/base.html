@@ -2,9 +2,7 @@
 <html lang="en">
 
   <center>
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-    TeX: {
+    <script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: {
     equationNumbers: {  autoNumber: "AMS"  },
     extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
     }
@@ -83,6 +81,8 @@
     </head>
     <body>
       <nav>
+        <a href="{{ url_for('postpage.postTop') }}">Top</a>
+        <a>|</a>
         <a href="{{ url_for('postpage.postPage') }}">Posts</a>
         <a>|</a>
         <a href="{{ url_for('searchpage.searchPage') }}">Search</a>
