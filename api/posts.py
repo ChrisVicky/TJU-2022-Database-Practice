@@ -9,6 +9,7 @@ from models.posts import Posts
 from models import db
 from utils.ML import get_emb
 from time import sleep
+from models import procedures
 
 
 postpage = Blueprint('postpage', __name__)
@@ -110,6 +111,13 @@ def postEdit(pid, fid):
         return redirect(url_for('postpage.postIndex', id=post.id, fid=post.fieldid))
     return render_template('editPost.html', post=post)
 
+
+##
+# @brief 熱榜
+#
+# @param id
+#
+# @return 
 @postpage.route("/top/")
 @postpage.route("/top/page/<int:id>")
 def postTop(id=1):
@@ -121,3 +129,11 @@ def postTop(id=1):
     return render_template('hotposts.html', currPage=page_num, totalRecords=each_page, totalPage=total_page, posts=post_list)
 
 
+
+
+@postpage.route("/comment")
+def postComment():
+    if request.method!='POST':
+        return render_template('500.html', msg="Post Method Error")
+    
+    procedures.create_comment(fid, pid, uid, body)
