@@ -1,12 +1,14 @@
 from flask import Blueprint, Flask, render_template, request, url_for, redirect
 from api.service import PostService
 from models.semantic_embeddings import SemanticEmbeddings
+from api.service import UserService
 from utils import log, tag2tag
 from utils import u_from_fu, f_from_fu
 from models.procedures import add_tag, create_new_post
 from models.posts import Posts
 from models import db
 from utils.ML import get_emb
+from time import sleep
 
 
 postpage = Blueprint('postpage', __name__)
@@ -43,7 +45,9 @@ def postCreation():
     if fuid is None:
         return redirect(url_for('loginpage.login'))
     fuid = int(fuid)
-    log(f"{fuid}")
+    uid = u_from_fu(fuid)
+    fid = f_from_fu(fuid)
+    user = UserService.getUserByUid(uid, fid)
     if request.method=='POST':
         fid = f_from_fu(fuid)
         title = request.form['title']
@@ -54,6 +58,7 @@ def postCreation():
         create_new_post(fid, title, tags, body, uid)
         # Show New post and Deal with Tags errorcode, post = PostService.getLastPost() if errorcode==1:
         errocode, post = PostService.getLastPost()
+        sleep(2)
         if errocode:
             return render_template('500.html', msg=post)
         tags = post.tags
@@ -65,6 +70,7 @@ def postCreation():
         input = SemanticEmbeddings(fieldid=post.fieldid, postid=post.id, embedding=title_emb)
         db.session.add(input)
         db.session.commit()
+        post.user = user
         return render_template('post.html', post=post)
     return render_template('create.html')
 
@@ -103,7 +109,6 @@ def postEdit(pid, fid):
         db.session.commit()
         return redirect(url_for('postpage.postIndex', id=post.id, fid=post.fieldid))
     return render_template('editPost.html', post=post)
-
 
 
 
