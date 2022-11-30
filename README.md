@@ -1,16 +1,8 @@
-{% extends 'base.html' %}
+# Forum in Flask
 
-{% block content %}
+---
 
-<div>
-<h1>About Us</h1>
-
-{%filter markdown%}
-
-# 数据库实践
-
-## Project Structure
-
+## Directories
 ```
 .
 ├── api                             -- Application Interfaces
@@ -55,8 +47,3 @@
 12 directories, 88 files
 ```
 
-
-{%endfilter%}
-</div>
-
-{% endblock %}

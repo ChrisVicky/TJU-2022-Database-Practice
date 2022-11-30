@@ -23,8 +23,7 @@ dependencies:
   - autopep8=1.6.0=pyhd3eb1b0_1
   - babel=2.9.1=pyhd3eb1b0_0
   - backcall=0.2.0=pyhd3eb1b0_0
-  - backports=1.1=pyhd3eb1b0_0
-  - backports.functools_lru_cache=1.6.4=pyhd3eb1b0_0
+  - backports=1.1=pyhd3eb1b0_0 - backports.functools_lru_cache=1.6.4=pyhd3eb1b0_0
   - backports.tempfile=1.0=pyhd3eb1b0_1
   - backports.weakref=1.0.post1=py_1
   - bcrypt=3.2.0=py39h5eee18b_1
