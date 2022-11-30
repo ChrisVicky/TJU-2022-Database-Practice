@@ -1,0 +1,11 @@
+.idea
+api/service/__pycache__
+api/__pycache__
+models/__pycache__
+utils/ML/__pycache__
+utils/__pycache__
+__pycache__
+.ipynb_checkpoints
+models/.ipynb_checkpoints
+utils/.ipynb_checkpoints
+utils/ML/.ipynb_checkpoints
