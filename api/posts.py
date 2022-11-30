@@ -1,17 +1,17 @@
 from flask import Blueprint, Flask, render_template, request, url_for, redirect
-# from flask_sqlalchemy import SQLAlchemy
-# from sqlalchemy.sql import func
-# from ..models import db
-# from ..models import profanity
 from api.service import PostService
-from api.service import CommentService
-from utils import log
+from models.semantic_embeddings import SemanticEmbeddings
+from utils import log, tag2tag
+from utils import u_from_fu, f_from_fu
+from models.procedures import add_tag, create_new_post
+from models.posts import Posts
+from models import db
+from utils.ML import get_emb
 
 
 postpage = Blueprint('postpage', __name__)
 
 pagelimit = 12
-
 
 ##
 # @brief Post Main Page
@@ -28,71 +28,82 @@ def postPage(id=1):
 
 ##
 # @brief Individual Post Page
-@postpage.route('/<int:id>')
-def postIndex(id):
-    errorcode, post = PostService.getPost(id)
+@postpage.route('/<int:id>/<int:fid>')
+def postIndex(id, fid):
+    errorcode, post = PostService.getPost(id, fid)
     if errorcode==1:
         return render_template('500.html', msg=post)
-    log(f"comment_list: {len(post.comment_list)}")
     return render_template('post.html', post=post)
 
+##
+# @brief Create New Post
+@postpage.route("/create", methods=('POST', 'GET'))
+def postCreation():
+    fuid = request.cookies.get('fuid')
+    if fuid is None:
+        return redirect(url_for('loginpage.login'))
+    fuid = int(fuid)
+    log(f"{fuid}")
+    if request.method=='POST':
+        fid = f_from_fu(fuid)
+        title = request.form['title']
+        # tags = request.form['tags']
+        tags = request.form['tags']
+        body = request.form['body']
+        uid = u_from_fu(fuid)
+        create_new_post(fid, title, tags, body, uid)
+        # Show New post and Deal with Tags errorcode, post = PostService.getLastPost() if errorcode==1:
+        errocode, post = PostService.getLastPost()
+        if errocode:
+            return render_template('500.html', msg=post)
+        tags = post.tags
+        tags = tag2tag(tags)
+        for t in tags:
+            add_tag(post.fieldid, post.id, t)
+        db.session.commit()
+        title_emb = get_emb([title])[0]
+        input = SemanticEmbeddings(fieldid=post.fieldid, postid=post.id, embedding=title_emb)
+        db.session.add(input)
+        db.session.commit()
+        return render_template('post.html', post=post)
+    return render_template('create.html')
+
+    
+##
+# @brief Edit Post
+@postpage.route("/edit", methods=('POST', 'GET'))
+def postEdit(pid, fid):
+    fuid = request.cookies.get('fuid')
+    if fuid is None:
+        return render_template(url_for('loginpage.login'))
+    fuid = int(fuid)
+    uid = u_from_fu(fuid)
+    fid = f_from_fu(fuid)
+    
+    post = PostService.getPost(pid, fid)
+    if post is None:
+        return render_template('500.html', msg="post not exist")
+    if post.fieldid != fid or post.owneruserid != uid:
+        return render_template('500.html', msg="Not Your Post, can't Edit it")
+
+    if request.method=='POST':
+        title = request.form['title']
+        tags = request.form['tags']
+        body = request.form['body']
+        post.title = title
+        post.tags = tags
+        post.body = body
+
+        emb = get_emb([title])[0]
+        seman_entity = SemanticEmbeddings.query.filter(SemanticEmbeddings.fieldid==post.fieldid, SemanticEmbeddings.postid==post.id).one()
+        if seman_entity is None:
+            return render_template('500.html', msg="Semantic Not exist Error")
+        seman_entity.embedding = emb
+
+        db.session.commit()
+        return redirect(url_for('postpage.postIndex', id=post.id, fid=post.fieldid))
+    return render_template('editPost.html', post=post)
 
 
-# @app.route('/<int:id>/')
-# def getBook(id):
-#     book = books.query.get_or_404(id)
-#     return render_template('book.html', book=book)
-#
-#
-# @app.route("/create/", methods=('GET', 'POST'))
-# def create():
-#     if request.method=='POST':
-#         title = request.form['title']
-#         author = request.form['author']
-#         review = request.form['review']
-#         page = request.form['page']
-#         book = books(title=title,
-#                      author=author,
-#                      review=review,
-#                      pages_num=page,
-#                     )
-#         db.session.add(book)
-#         db.session.commit()
-#         return redirect(url_for('index'))
-#     return render_template('create.html')
-#
-#
-# @app.route('/<int:id>/edit/', methods=('GET', 'POST'))
-# def editReview(id):
-#     book = books.query.get_or_404(id)
-#
-#     if request.method=='POST':
-#         title = request.form['title']
-#         author = request.form['author']
-#         review = request.form['review']
-#         page = request.form['page']
-#
-#         book.title = title
-#         book.author = author
-#         book.review = review
-#         book.page = page
-#
-#         db.session.add(book)
-#         db.session.commit()
-#
-#         return redirect(url_for('index'))
-#     return render_template('edit.html', book=book)
-#
-#
-#
-# @app.route('/<int:id>/delete/')
-# def deleteReview(id):
-#     book = books.query.get_or_404(id)
-#     db.session.delete(book)
-#     db.session.commit()
-#     return redirect(url_for('index'))
-#
-#
-#
-#
-#
+
+

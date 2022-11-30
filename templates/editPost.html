@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 style="width: 100%">
+        {% block title %} 
+          Post Edit
+        {% endblock %}
+    </h1>
+<center style="width:100%">
+    <form method="post">
+        <p>
+            <label for="title">Title</label>
+            <input type="text" name="title"
+                   value={{ post.title }}
+                   placeholder="">
+            </input>
+        </p>
+
+	<p>
+	<label for="tags">Tags Form: &lt;tag1&gt;&lt;tag2&gt;</label><br>
+	<textarea name="tags"
+		  placeholder="&lt;tag1&gt;&lt;tag2&gt;&lt;tag3&gt;"
+		  rows="3"
+		  cols="60"
+		  >
+        {%for t in post.tag_list%}
+        <{{t}}>
+        {%endfor%}
+      </textarea>
+	</p>
+        <p>
+        <label for="bio">Content</label>
+        <br>
+        <textarea name="body"
+                  placeholder=""
+                  rows="15"
+                  cols="60"
+                  >{{ post.body }}</textarea>
+        </p>
+        <p>
+            <button type="submit">Submit</button>
+        </p>
+    </form>
+</center>
+{% endblock %}

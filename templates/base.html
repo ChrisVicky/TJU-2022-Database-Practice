@@ -1,88 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  TeX: {
-     equationNumbers: {  autoNumber: "AMS"  },
-     extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
-  }
-});
-</script>
-<script type="text/javascript"
- src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
+
+  <center>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    TeX: {
+    equationNumbers: {  autoNumber: "AMS"  },
+    extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+    }
+    });
+  </script>
+    <script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
     extensions: ["tex2jax.js"],
     jax: ["input/TeX", "output/HTML-CSS"],
     tex2jax: {
-      inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-      processEscapes: true
+    inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+    processEscapes: true
     },
     "HTML-CSS": { availableFonts: ["TeX"] }
-  });
-</script>
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %} {% endblock %} - FlaskApp</title>
-    <style>
-        .title {
-            margin: 5px;
-        }
+    });
+  </script>
+    <head>
+      <meta charset="UTF-8">
+      <title>{% block title %} {% endblock %} - FlaskApp</title>
+      <style>
+      .ul {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      }
+      .title {
+      margin: 5px;
+      width:100%;
+      align-items: center;
+      }
 
-        .content {
-            margin: 5px;
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-        }
+      .content {
+      margin: 5px;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      }
 
-        .post{
-            flex: 20%;
-            padding: 10px;
-            margin: 5px;
-            background-color: #f3f3f3;
-            inline-size: 100%;
-        }
-        .comment {
-            padding: 10px;
-            margin: 5px;
-            background-color: #ffffff;
-            color: #004835;
-        }
+      .post{
+      flex: 20%;
+      padding: 10px;
+      margin: 5px;
+      background-color: #f3f3f3;
+      inline-size: 100%;
+      }
+      .comment {
+      padding: 10px;
+      margin: 5px;
+      background-color: #ffffff;
+      color: #004835;
+      }
 
-        .bio {
-            padding: 10px;
-            margin: 5px;
-            background-color: #ffffff;
-            color: #004835;
-        }
+      .bio {
+      padding: 10px;
+      margin: 5px;
+      background-color: #ffffff;
+      color: #004835;
+      }
 
-        .name a {
-            color: #00a36f;
-            text-decoration: none;
-        }
+      .name a {
+      color: #00a36f;
+      text-decoration: none;
+      }
 
-        nav a {
-            color: #d64161;
-            font-size: 3em;
-            margin-left: 50px;
-            text-decoration: none;
-        }
+      nav a {
+      color: #d64161;
+      font-size: 2em;
+      margin-left: 50px;
+      text-decoration: none;
+      }
     </style>
-</head>
-<body>
-    <nav>
-        <a href="{{ url_for('mainpage.index') }}">Home</a>
-	<a href="{{ url_for('mainpage.aboutme') }}">About</a>
-	<a href="{{ url_for('postpage.postPage') }}">Posts</a>
-	<a href="{{ url_for('loginpage.login') }}">Login</a>
-	<a href="{{ url_for('userpage.userIndex') }}">User</a>
-    </nav>
-    <hr>
-    <div class="content">
+    </head>
+    <body>
+      <nav>
+        <a href="{{ url_for('postpage.postPage') }}">Posts</a>
+        <a>|</a>
+        <a href="{{ url_for('searchpage.searchPage') }}">Search</a>
+        <a>|</a>
+        <a href="{{ url_for('postpage.postCreation') }}">Create</a>
+        <a>|</a>
+        <a href="{{ url_for('userpage.userRegister') }}">Register</a>
+        <a>|</a>
+        <a href="{{ url_for('loginpage.login') }}">Login</a>
+        <a>|</a>
+        <a href="{{ url_for('userpage.userIndex') }}">UserInfo</a>
+        <a>|</a>
+        <a href="{{ url_for('loginpage.logout') }}">Logout</a>
+        <a>|</a>
+        <a href="{{ url_for('mainpage.aboutme') }}">About us</a>
+      </nav>
+      <hr>
+      <div class="content">
         {% block content %} {% endblock %}
-    </div>
-</body>
+      </div>
+    </body>
+  </center>
 </html>

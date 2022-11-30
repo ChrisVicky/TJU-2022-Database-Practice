@@ -1,4 +1,6 @@
+from typing import final
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import Executable
 db = SQLAlchemy()
 
 ##
@@ -66,6 +68,32 @@ def exec_pro(schema, proc, params):
     finally:
         connection.close()
     return 
+
+
+##
+# @brief Run Functions
+#
+# @param schema
+# @param func_name
+# @param params
+#
+# @return 
+def exec_func(schema, func_name, params):
+    connection = db.engine.raw_connection()
+    try:
+        cursor = connection.cursor()
+        callstring = f"SELECT \"{schema}\".{func_name}{params}"
+        cursor.execute(callstring)
+        connection.commit()
+        ret = cursor.fetchall()
+        connection.close()
+        return ret
+    except Exception as e:
+        raise e
+    finally:
+        connection.close()
+
+
 
 
 ##

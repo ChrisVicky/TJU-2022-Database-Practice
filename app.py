@@ -6,6 +6,7 @@ from api import mainpage
 from api.posts import postpage
 from api.login import loginpage
 from api.users import userpage
+from api.search import searchpage
 from flaskext.markdown import Markdown
 
 
@@ -39,6 +40,7 @@ def configure_blueprints(app):
     app.register_blueprint(postpage, url_prefix='/post')
     app.register_blueprint(loginpage, url_prefix='/login')
     app.register_blueprint(userpage, url_prefix='/user')
+    app.register_blueprint(searchpage, url_prefix='/search')
 
 
 def configure_extensions(app):

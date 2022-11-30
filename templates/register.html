@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 style="width: 100%">{% block title %} Register {% endblock %}</h1>
+        <script>  
+            function check2pwd() {  
+                    if(input1.value != input2.value) {  
+                        alert("两次输入密码不一致！")
+                        input1.value = "";  
+                        input2.value = "";  
+                    }
+            }
+        </script>
+<div class="content">
+	<div class="post">
+    <center>
+
+
+<form method="post">
+	<p>
+	<label for="fieldid">field</label>
+	<input type="radio" name="fieldid" value="1">AI StackExchange
+	<input type="radio" name="fieldid" value="2">Math Overflow
+	<input type="radio" name="fieldid" value="3">DataScience StackExchange
+	</p>
+
+	<p>
+	<label for="nickname">nickname</label>
+	<input type="text" name="nickname"
+			   placeholder="nickname">
+	</input>
+	</p>
+
+	<p>
+	<label for="username">username</label>
+	<input type="text" name="username"
+			   placeholder="username">
+	</input>
+	</p>
+
+	<p>
+	<label for="password">please enter your password</label>
+	<input type="password" id="input1" name="password" placeholder="password">
+	</input>
+	</p>
+
+	<p>
+	<label for="password">double   check   password</label>
+	<input type="password" id="input2" name="password2" placeholder="password" onblur="check2pwd()">
+	</input>
+	</p>
+	<p>
+	<button type="submit">submit</button>
+	</p>
+</form>
+</center>
+</div></div>
+{% endblock %}

@@ -2,55 +2,68 @@
 
 {% block content %}
 <span class="title">
-	<h1>{% block title %} {{ post.title }} {% endblock %}</h1>
-	<h2> posted by: {{ post.author }}</h2>
-	<p>at: {{ post.date }}</p>
+  <h1>{% block title %} {{ post.title }} {% endblock %}</h1>
+  <a href="{{ url_for('userpage.userInfo', id=post.user.id, fid=post.user.fieldid)}}">
+    <h2 > Author: {{ post.author }}</h2>
+  </a>
+  <p>at: {{ post.date }}</p>
 </span>
 <div class="content">
-	<div class="post">
+  <div class="post">
 
-		<a href="{{ url_for('postpage.postIndex', id=post.id)}}">
-			<p><b>#{{ post.id }} comments: {{post.commentcount}}, answers: {{post.answercount}}</b></p>
-		</a>
-		<h3>content</h3>
-		<div class="bio">
-			{% autoescape false %}
-			{{ post.body  }}
-			{% endautoescape %}
-		</div>
-		<h3>comment</h3>
-		{%for comment in post.comment_list%}
-		<div class="comment">
-			<p>{{comment.date}} - <b>{{comment.displayname}}:</b> {{comment.text}}</p>
-		</div>
-		{%endfor%}
-	</div>
+    <p><b>#{{ post.id }}  | comments: {{post.commentcount}} | answers: {{post.answercount}}</b></p>
+    {% if post.tags_list %}
+    <p>
+    {% for t in post.tags_list %}
+    # {{ t.tagname }} |
+    {% endfor %}
+    </p>
+    {% endif%}
+    <h3>content</h3>
+    <div class="bio">
+      {% autoescape false %}
+      {{ post.body  }}
+      {% endautoescape %}
+    </div>
+    <h3>comment</h3>
+    {%for comment in post.comment_list%}
+    <div class="bio">
+      <p>{{comment.date}} - <b>{{comment.displayname}}:</b> 
+      {%autoescape false%}
+      {{comment.text}}
+      {%endautoescape%}
+      </p>
+    </div>
+    {%endfor%}
+  </div>
 </div>
 
 {%- for p in post.answers recursive%}
 <p>Answered on: {{ p.date }}</p>
 <div class="content">
-	<div class="post">
+  <div class="post">
 
-		<a href="{{ url_for('postpage.postIndex', id=p.id)}}">
-			<p><b>#{{ p.id }} comments: {{p.commentcount}}, answers: {{p.answercount}}</b></p>
-		</a>
-		<h4>content</h4>
-		<div class="bio">
-			{% autoescape false %}
-			{{ p.body  }}
-			{% endautoescape %}
-		</div>
-		<h3>comment</h3>
-		{%for comment in p.comment_list%}
-		<div class="comment">
-			<p>{{comment.date}} - <b>{{comment.displayname}}:</b> {{comment.text}}</p>
-		</div>
-		{%endfor%}
-	</div>
-	{%if p.answers %}
-	{{loop(p.answers)}}
-	{%endif%}
+    <a href="{{ url_for('postpage.postIndex', id=p.id, fid=p.fieldid)}}">
+      <p><b>#{{ p.id }}  | comments: {{p.commentcount}} | answers: {{p.answercount}}</b></p>
+    </a>
+    <h4>content</h4>
+    <div class="bio">
+      {% autoescape false %}
+      {{ p.body  }}
+      {% endautoescape %}
+    </div>
+    <h3>comment</h3>
+    {%for comment in p.comment_list%}
+    <div class="bio">
+      {% autoescape false %}
+      <p>{{comment.date}} - <b>{{comment.displayname}}:</b> {{comment.text}}</p>
+      {%endautoescape %}
+    </div>
+    {%endfor%}
+  </div>
+  {%if p.answers %}
+  {{loop(p.answers)}}
+  {%endif%}
 </div>
 {% endfor %}
 {% endblock %}

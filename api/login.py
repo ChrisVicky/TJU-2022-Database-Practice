@@ -11,8 +11,13 @@ from models.users import Users
 from utils import log
 loginpage = Blueprint('loginpage', __name__)
 
+##
+# @brief Login 
 @loginpage.route('/', methods=('GET', 'POST'))
 def login():
+    fuid = request.cookies.get('fuid')
+    if fuid:
+        return redirect(url_for('userpage.userIndex'))
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -27,12 +32,17 @@ def login():
         res.set_cookie('fuid', ckstring)
         return res
 
-    # TODO: Logout, without Log out interface, a customer won't be able to change accounts
-    # fuid = request.cookies.get('fuid')
-    # log(f"fuid {fuid}")
-    # if not fuid:
-    #     return render_template('login.html')
-    # return redirect(url_for('userpage.userIndex'))
     return render_template("login.html")
+
+##
+# @brief Logout
+@loginpage.route('/logout')
+def logout():
+    fuid = request.cookies.get('fuid')
+    if not fuid:
+        return redirect(url_for('loginpage.login'))
+    res = make_response(redirect(url_for('loginpage.login')))
+    res.delete_cookie('fuid')
+    return res
 
 

@@ -41,7 +41,7 @@ class Users(db.Model):
     __tablename__   = "users"
     __table_args__ = {"schema": "StackExchange"}
     # NOTE: primary_key order matters (filedid, id) as a pair of KEY Refered by Other tables
-    fieldid         = db.Column(db.Integer, db.ForeignKey("field.fieldid"), nullable=False, primary_key=True)
+    fieldid         = db.Column(db.Integer, nullable=False, primary_key=True)
     id              = db.Column(db.Integer, primary_key=True, nullable=False)
 
     reputation      = db.Column(db.Integer)

@@ -1,40 +1,42 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 style="width: 100%">{% block title %} Add a New Student {% endblock %}</h1>
-    <form method="post">
-        <p>
-            <label for="Title">Title</label>
-            <input type="text" name="title"
-                   placeholder="Title">
-l           </input>
-        </p>
 
-        <p>
-            <label for="Author">Author</label>
-            <input type="text" name="author"
-                   placeholder="author">
-            </input>
-        </p>
+<div class="content">
+	<div class="post">
+		<center>
+<h1 style="width: 100%">{% block title %} Create A New Post {% endblock %}</h1>
+<form method="post">
+	<p>
+	<label for="Title">Title</label>
+	<input type="text" name="title"
+			   placeholder="Title">
+	           </input>
+	</p>
 
-        <p>
-            <label for="page">page</label>
-            <input type="number" name="page"
-                   placeholder="Page">
-            </input>
-        </p>
+	<p>
+	<label for="tags">Tags Form: &lt;tag1&gt;&lt;tag2&gt;</label><br>
+	<textarea name="tags"
+		  placeholder="&lt;tag1&gt;&lt;tag2&gt;&lt;tag3&gt;"
+		  rows="3"
+		  cols="60"
+		  ></textarea>
+	</p>
 
-        <p>
-        <label for="review">Review</label>
-        <br>
-        <textarea name="review"
-                  placeholder="review"
-                  rows="15"
-                  cols="60"
-                  ></textarea>
-        </p>
-        <p>
-            <button type="submit">Submit</button>
-        </p>
-    </form>
+	<p>
+	<label for="review">content</label>
+	<br>
+	<textarea name="body"
+		  placeholder=""
+		  rows="15"
+		  cols="60"
+		  ></textarea>
+	</p>
+	<p>
+	<button type="submit">Submit</button>
+	</p>
+</form>
+</center>
+</div></div>
 {% endblock %}
+

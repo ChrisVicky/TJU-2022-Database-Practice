@@ -9,7 +9,7 @@
 		<p></p>
 		<b>
 			<p class="name">
-			<a href="{{ url_for('postpage.postIndex', id=post.id)}}">
+			<a href="{{ url_for('postpage.postIndex', id=post.id, fid=post.fieldid)}}">
 				{% autoescape false %}
 				<h2># {{ post.title }}
 				</h2>
