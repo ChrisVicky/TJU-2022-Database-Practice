@@ -1,3 +1,4 @@
+<html>
 <head>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css" />
   <!-- Lite version -->
@@ -18,6 +19,7 @@
     }
   </style>
 </head>
+</html>
 
 # Forum in Flask -- 數據庫實踐大作業
 
