@@ -2,7 +2,7 @@ pack:
 	zip -r archive ./*
 
 docker:
-	sudo ./build.sh
+	sudo bash ./build.sh
 
 run:
 	python3 ./forum-in-flask/app.py
