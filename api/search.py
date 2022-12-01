@@ -66,6 +66,8 @@ class CacheTable:
         Path(f"cached_search/{evict_idx}.pkl").write_bytes(pickle.dumps(posts))
 
     def cached_search(self, query: str, num: int):
+        hit = False
+
         query_embedding = get_emb([query])[0]
         sim = cos_sim(query_embedding, self.cache[:, 2:])
         sim = sim.reshape(-1)
@@ -79,21 +81,23 @@ class CacheTable:
                 self.refresh_LRU(similarest_idx)
                 # deserialize posts using pickle
                 posts = pickle.loads(cached_post_path.read_bytes())
-                return 0, posts
+                hit = True
+                return hit, 0, posts
             else:
                 self.cache[similarest_idx][0] = 0  # invalidate the post
 
         # Miss
+        hit = False
         status, posts = SearchService.getSearchResult(query, num)
         if status == 0:
             self.cache_post(query_embedding, posts)
 
         self.save_cache()
 
-        return status, posts
+        return hit, status, posts
 
 
-cache_table = CacheTable(100, 384, 0.8)
+cache_table = CacheTable(100, 384, 0.6)
 
 ##
 # @brief Search Posts titles
@@ -101,11 +105,14 @@ cache_table = CacheTable(100, 384, 0.8)
 def searchPage():
     if request.method == 'POST':
         content = request.form['content']
+        hit, errorcode, posts = cache_table.cached_search(content, 10)
         if request.form.get('use_cached', 'off') == 'on':
             print("Using cached search")
-            errorcode, posts = cache_table.cached_search(content, 10)
         else:
-            errorcode, posts = SearchService.getSearchResult(content, 12)
+            if hit:  # if hit, and we don't want to use cached search
+                errorcode, posts = SearchService.getSearchResult(content, 12)
+            else:  # cache miss, we can pretend nothing happened
+                pass
         if errorcode:
             return render_template('500.html', msg=posts)
         return render_template('results.html', posts=posts, content=content)
