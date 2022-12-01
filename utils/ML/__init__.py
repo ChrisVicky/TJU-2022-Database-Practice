@@ -25,4 +25,5 @@ try:
         b_norm = np.linalg.norm(b, axis=1, keepdims=True)
         return np.dot(a / a_norm, (b / b_norm).T)
 except:
+    from utils.get_semantic import get_embedding as get_emb
     pass
