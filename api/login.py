@@ -24,7 +24,8 @@ def login():
         success, user = UserService.login(username, password)
         if success:
             # Login Failed
-            return render_template("500.html", msg="Login Error")
+            # return render_template("500.html", msg="Login Error")
+            return render_template("display_exception.html", msg="登录有误，请检查用户名和密码")
         log(f"Login Success: {user.id}")
         ckstring = str(fu_in_one(user.fieldid, user.id))
         log(f"ckstring: {ckstring}")
