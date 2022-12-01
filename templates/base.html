@@ -73,13 +73,14 @@
 
       nav a {
       color: #d64161;
-      font-size: 1em;
+      font-size: 0.9em;
       margin-left: 50px;
       text-decoration: none;
       }
     </style>
     </head>
     <body>
+    <div style="text-align: center;">
       <nav>
         <a href="{{ url_for('postpage.postTop') }}">Top</a>
         <a>|</a>
@@ -99,6 +100,7 @@
         <a>|</a>
         <a href="{{ url_for('mainpage.aboutme') }}">About us</a>
       </nav>
+    </div>
       <hr>
       <div class="content">
         {% block content %}

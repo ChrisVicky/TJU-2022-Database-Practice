@@ -97,7 +97,7 @@ class CacheTable:
         return hit, status, posts
 
 
-cache_table = CacheTable(100, 384, 0.6)
+cache_table = CacheTable(100, 384, 0.9)
 
 ##
 # @brief Search Posts titles
