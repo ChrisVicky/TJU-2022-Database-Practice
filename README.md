@@ -9,7 +9,7 @@
   <!-- Screen version -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css" />
 
-  <style>
+  <style type="text/css">
     body {
       font-family: "LXGW WenKai", sans-serif;
       /* Lite version */
