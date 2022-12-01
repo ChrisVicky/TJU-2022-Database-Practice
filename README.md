@@ -1,29 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css" />
-  <!-- Lite version -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.1.0/style.css" />
-  <!-- TC version -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-webfont@1.0.0/style.css" />
-  <!-- Screen version -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css" />
-
-  <style type="text/css">
-    body {
-      font-family: "LXGW WenKai", sans-serif;
-      /* Lite version */
-      font-family: "LXGW WenKai Lite", sans-serif;
-      /* TC version */
-      font-family: "LXGW WenKai TC", sans-serif;
-      /* Screen version */
-      font-family: "LXGW WenKai Screen", sans-serif;
-    }
-  </style>
-
-</head>
-<body>
-<div>
 
 # Forum in Flask -- 數據庫實踐大作業
 
@@ -86,8 +60,5 @@
 ```shell
 make docker
 ```
-</div>
-</body>
-</html>
 
 
