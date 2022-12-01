@@ -1,11 +1,11 @@
-from flask import Blueprint, Flask, make_response, render_template, request, url_for, redirect
+from flask import Blueprint, render_template, request
 from api.service import SearchService
 import numpy as np
 try:
     from utils.ML import get_emb, cos_sim
 except:
-    from utils.get_semantic import get_embedding as get_emb
-    from utils.get_semantic import cos_sim
+    from utils.ML.get_semantic import get_embedding as get_emb
+    from utils.ML.get_semantic import cos_sim
 from pathlib import Path
 import time
 import pickle

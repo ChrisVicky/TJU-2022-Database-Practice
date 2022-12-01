@@ -4,5 +4,6 @@ flask_sqlalchemy==3.0.2
 numpy==1.23.5
 requests==2.28.1
 retry==0.9.2
-sentence_transformers==2.2.2
+# sentence_transformers==2.2.2
 SQLAlchemy==1.4.44
+psycopg2

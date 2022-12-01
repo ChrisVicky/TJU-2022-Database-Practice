@@ -1,16 +1,15 @@
-from flask import Blueprint, Flask, render_template, request, url_for, redirect
+from flask import Blueprint, render_template, request, url_for, redirect
 from api.service import PostService
 from models.semantic_embeddings import SemanticEmbeddings
 from api.service import UserService
-from utils import log, tag2tag
+from utils import tag2tag
 from utils import u_from_fu, f_from_fu
 from models.procedures import add_tag, create_new_post
-from models.posts import Posts
 from models import db
 try:
     from utils.ML import get_emb
 except:
-    from utils.get_semantic import get_embedding as get_emb
+    from utils.ML.get_semantic import get_embedding as get_emb
 from time import sleep
 import re
 import time
