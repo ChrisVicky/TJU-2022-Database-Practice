@@ -7,7 +7,10 @@ from utils import u_from_fu, f_from_fu
 from models.procedures import add_tag, create_new_post
 from models.posts import Posts
 from models import db
-from utils.ML import get_emb
+try:
+    from utils.ML import get_emb
+except:
+    from utils.get_semantic import get_embedding as get_emb
 from time import sleep
 import re
 import time
