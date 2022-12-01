@@ -46,22 +46,30 @@ def userInfo(id, fid):
 # @brief user Registration
 @userpage.route("/register", methods=('POST', 'GET'))
 def userRegister():
-    fuid = request.cookies.get('fuid')
-    if fuid:
-        fuid = int(fuid)
-        user = UserService.getUserByUid(u_from_fu(fuid), f_from_fu(fuid))
-        return render_template("user.html", user = user)
-    if request.method=='POST':
-        fid = request.form['fieldid']
-        if fid:
-            fid = int(fid)
+    try:
+        fuid = request.cookies.get('fuid')
+        if fuid:
+            fuid = int(fuid)
+            user = UserService.getUserByUid(u_from_fu(fuid), f_from_fu(fuid))
+            return render_template("user.html", user = user)
+        if request.method=='POST':
+            fid = request.form['fieldid']
+            if fid:
+                fid = int(fid)
+            else:
+                return render_template('500.html', msg="fid must be int")
+            nickname = request.form['nickname']
+            username = request.form['username']
+            password = request.form['password']
+            procedures.create_user(fid, nickname, username, password)
+            return redirect(url_for('loginpage.login', username=username, password=password), code=307)
+    except Exception as e:
+        if str(e).find("duplicate key value") != -1:
+            return render_template('display_exception.html', msg="换一个用户名，别选太奇怪的")
+        elif str(e).find("400 Bad Request") != -1:
+            return render_template('display_exception.html', msg="要从AI、Math、Datascience里面选一个领域再注册")
         else:
-            return render_template('500.html', msg="fid must be int")
-        nickname = request.form['nickname']
-        username = request.form['username']
-        password = request.form['password']
-        procedures.create_user(fid, nickname, username, password)
-        return redirect(url_for('loginpage.login', username=username, password=password), code=307)
+            return render_template('500.html', msg=str(e))
     return render_template('register.html')
         
 

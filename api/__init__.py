@@ -10,7 +10,8 @@ mainpage = Blueprint('mainpage', __name__)
 # @brief Hello Index (Deprecated)
 @mainpage.route('/')
 def index():
-    return render_template('hello.html')
+    # return render_template('hello.html')
+    return render_template('about.md')
     # all_books = books.query.all()
     # return render_template('index.html', books=all_books)
 
