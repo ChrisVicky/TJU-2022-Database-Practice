@@ -72,4 +72,4 @@ def configure_errorhandlers(app):
 
 app = create_app()
 if __name__ == '__main__':
-    app.run(debug=True, port=8085, host="0.0.0.0")
+    app.run(debug=True, threaded=True, port=8085, host="0.0.0.0")
