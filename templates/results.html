@@ -1,52 +1,53 @@
-
-{%extends 'base.html'%}
+{% extends 'base.html' %}
 
 {% block content %}
 
 <div class="content">
-	<div class="post">
-		<center>
-			<form method="post">
-				<h1 style="width: 100%">
-					What you want to find ?
-				</h1>
-				<p>
-				<label for="content">content</label>
-				<input type="text" name="content"
-						   placeholder="search here">
-				</input>
-				</p>
-				<p>
-				<button type="submit">Submit</button>
-				</p>
-			</form>
-		</center>
-	</div>
+    <div class="post">
+        <center>
+            <form method="post">
+                <h1 style="width: 100%">
+                    What do you want to find ?
+                </h1>
+                <p>
+                    <label for="content">content</label>
+                    <input type="text" name="content"
+                           placeholder="search here">
+                    </input>
+                    <button type="submit">Submit</button>
+                </p>
+                <p>
+                    <input type="checkbox" name="use_cached" checked="checked"/>
+                    <label for="use_cached">use cache to accelerate search</label>
+                </p>
+            </form>
+        </center>
+    </div>
 </div>
 
 <h1 class="title" center>{% block title %} Results of '{{ content }}' {% endblock %}</h1>
 
 <div class="content">
-	{% for post in posts%}
-	<div class="post">
-		<p></p>
-		<b>
-			<p class="name">
-			<a href="{{ url_for('postpage.postIndex', id=post.id, fid=post.fieldid)}}">
-				{% autoescape false %}
-				<h2># {{ post.title }}
-				</h2>
-				{% endautoescape %}
-			</a>
-			<p># {{ post.id }} | [{{post.score}}]</p>
-			by {{post.author}}
-			</p>
-		</b>
-		<p>Posted on: {{ post.date }}</p>
-		<p>Answers: {{ post.answercount}}</p>
-		<p>Comments: {{ post.commentcount}}</p>
-	</div>
-	{% endfor %}
+    {% for post in posts %}
+	<div class="post", style="background-color: {% if post.fieldid == 1 %} #b4e8f8 {% elif post.fieldid == 2 %} #bdfce5 {% else %} #fde8d5 {% endif %}">
+        <p></p>
+        <b>
+            <p class="name">
+                <a href="{{ url_for('postpage.postIndex', id=post.id, fid=post.fieldid) }}">
+                    {% autoescape false %}
+            <h2># {{ post.title }}
+            </h2>
+            {% endautoescape %}
+            </a>
+            <p># {{ post.id }} | [{{ post.score }}]</p>
+            by {{ post.author }}
+            </p>
+        </b>
+        <p>Posted on: {{ post.date }}</p>
+        <p>Answers: {{ post.answercount }}</p>
+        <p>Comments: {{ post.commentcount }}</p>
+    </div>
+    {% endfor %}
 </div>
 
 {% endblock %}
