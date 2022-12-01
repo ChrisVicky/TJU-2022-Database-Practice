@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-webfont@1.0.0/style.css" />
   <!-- Screen version -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css" />
+
   <style>
     body {
       font-family: "LXGW WenKai", sans-serif;
@@ -19,9 +20,11 @@
       font-family: "LXGW WenKai Screen", sans-serif;
     }
   </style>
+
 </head>
 <body>
 <div>
+
 # Forum in Flask -- 數據庫實踐大作業
 
 ## Project Structure
