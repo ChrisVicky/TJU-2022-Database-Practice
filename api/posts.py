@@ -9,6 +9,7 @@ from models.posts import Posts
 from models import db
 from utils.ML import get_emb
 from time import sleep
+import re
 
 
 postpage = Blueprint('postpage', __name__)
@@ -55,7 +56,14 @@ def postCreation():
         tags = request.form['tags']
         body = request.form['body']
         uid = u_from_fu(fuid)
-        create_new_post(fid, title, tags, body, uid)
+        try:
+            create_new_post(fid, title, tags, body, uid)
+        except Exception as e:
+            if re.search('User is banned from talking', str(e)):
+                return render_template('display_exception.html', msg='You are banned from talking for 1 day! 不许说怪话😡')
+            else:
+                return render_template('500.html', msg=str(e))
+
         # Show New post and Deal with Tags errorcode, post = PostService.getLastPost() if errorcode==1:
         errocode, post = PostService.getLastPost()
         sleep(2)
