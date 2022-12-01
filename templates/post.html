@@ -6,7 +6,7 @@
   <a href="{{ url_for('userpage.userInfo', id=post.user.id, fid=post.user.fieldid)}}">
     <h2 > Author: {{ post.author }}</h2>
   </a>
-  <p>at: {{ post.date }}</p>
+  <p>at: {{ post.date }} GMT</p>
 </span>
 <div class="content">
   <div class="post">
@@ -39,7 +39,7 @@
 </div>
 
 {%- for p in post.answers recursive%}
-<p>Answered on: {{ p.date }}</p>
+<p>Answered on: {{ p.date }} GMT</p>
 <div class="content">
   <div class="post">
 

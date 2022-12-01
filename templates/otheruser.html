@@ -11,7 +11,7 @@
 <div class="content">
   <div class="post">
     <p><b>#{{ user.id }} | reputation: {{user.reputation}} | location: {{user.location}} |</b></p>
-    <p>Joint at: [{{ user.date }}]</p>
+    <p>Joint at: [{{ user.date }}] GMT</p>
     {%if user.aboutme%}
     <div class="bio">
       {% autoescape false %}
@@ -39,7 +39,7 @@
     by {{post.author}}
     </p>
   </b>
-  <p>Posted on: {{ post.date }}</p>
+  <p>Posted on: {{ post.date }} GMT</p>
   <p>Answers: {{ post.answercount}}</p>
   <p>Comments: {{ post.commentcount}}</p>
 </div>
