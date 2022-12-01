@@ -2,17 +2,17 @@
 
 {% block content %}
 
-<div>
+<div style="text-align: left">
 <h1>About Us</h1>
 
 {%filter markdown%}
 
 # 数据库实践
 
-## Project Structure
+## Application Server File Structure
 
-```
-.
+<pre>
+<code>.
 ├── api                             -- Application Interfaces
 │   ├── __init__.py                 -- Home inteface
 │   ├── login.py                    -- Login Interface
@@ -53,7 +53,9 @@
     └── ML                          -- Machine Learning Functions
         └── __init__.py
 12 directories, 88 files
-```
+</code>
+</pre>
+
 
 
 {%endfilter%}
