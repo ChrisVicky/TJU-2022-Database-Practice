@@ -17,7 +17,7 @@ from utils import translateTime, log
 #
 # @return 
 def getCommentByPostId(id, fieldid):
-    comments_list = Comments.query.filter(Comments.fieldid==fieldid, Comments.postid==id).all()
+    comments_list = Comments.query.filter(Comments.fieldid==fieldid, Comments.postid==id).limit(4).all()
     for c in comments_list:
         c.displayname = Users.query.filter(Users.id==c.userid, Users.fieldid==fieldid).first().displayname
         c.date = translateTime(c.creationdate)

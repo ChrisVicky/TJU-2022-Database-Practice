@@ -42,6 +42,7 @@
   <p>Posted on: {{ post.date }}</p>
   <p>Answers: {{ post.answercount}}</p>
   <p>Comments: {{ post.commentcount}}</p>
+  <a href="{{ url_for('postpage.postEdit', pid=post.id, pfid=post.fieldid) }}">Edit This Post</a>
 </div>
 {% endfor %}
 {%endif%}
