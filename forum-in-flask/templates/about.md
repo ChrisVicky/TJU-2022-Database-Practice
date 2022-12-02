@@ -10,6 +10,18 @@
 
 # About Us
 
+
+<pre>
+<code>
+| 人员   | 分工                 |
+|-------|----------------------|
+| 王家鹏 | 数据库设计，汇报人      |
+| 罗超凡 | 数据库设计，数据库管理员 |
+| 刘锦帆 | 数据库设计，前后端，部署 |
+</code>
+</pre>
+
+
 ## Overall Architecture
 
 <img src="https://img1.imgtp.com/2022/12/01/ITGq5POR.jpg" width="70%"/>
