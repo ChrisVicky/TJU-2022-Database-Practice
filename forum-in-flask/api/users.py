@@ -5,7 +5,7 @@ from utils import u_from_fu, f_from_fu, fu_in_one
 from utils import log
 from models import procedures
 from models import db
-from .prevent_sql_injection import sql_injection_check
+from utils.prevent_sql_injection import sql_injection_check
 
 userpage = Blueprint("userpage", __name__)
 

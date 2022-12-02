@@ -9,7 +9,7 @@ from api.service import UserService
 from utils import fu_in_one
 from models.users import Users
 from utils import log
-from .prevent_sql_injection import sql_injection_check
+from utils.prevent_sql_injection import sql_injection_check
 loginpage = Blueprint('loginpage', __name__)
 
 ##

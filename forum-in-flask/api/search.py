@@ -9,7 +9,7 @@ except:
 from pathlib import Path
 import time
 import pickle
-from .prevent_sql_injection import sql_injection_check
+from utils.prevent_sql_injection import sql_injection_check
 
 searchpage = Blueprint('searchpage', __name__)
 

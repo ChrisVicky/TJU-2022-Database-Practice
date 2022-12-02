@@ -19,7 +19,7 @@ from pathlib import Path
 import pickle
 from utils import log
 
-from .prevent_sql_injection import sql_injection_check
+from utils.prevent_sql_injection import sql_injection_check
 
 postpage = Blueprint('postpage', __name__)
 
