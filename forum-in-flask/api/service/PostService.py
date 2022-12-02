@@ -51,7 +51,10 @@ def getPost(id, fid):
         if post is None:
             return 1, "该 POST 已经被清理，请将快速查找功能关闭再试"
         author = Users.query.filter(Users.id==post.owneruserid, Users.fieldid==post.fieldid).first()
-        post.author = author.displayname
+        if author is None:
+            post.author = None
+        else:
+            post.author = author.displayname
         post.date = translateTime(post.creationdate)
         # 获取评论
         post.comment_list = CommentService.getCommentByPostId(id, post.fieldid)
