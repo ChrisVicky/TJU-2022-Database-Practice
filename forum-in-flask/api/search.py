@@ -9,6 +9,7 @@ except:
 from pathlib import Path
 import time
 import pickle
+from .prevent_sql_injection import sql_injection_check
 
 searchpage = Blueprint('searchpage', __name__)
 
@@ -110,6 +111,7 @@ def searchPage():
     if request.method == 'POST':
         content = request.form['content']
         hit, errorcode, posts = cache_table.cached_search(content, 10)
+        _, content = sql_injection_check(content)
         if request.form.get('use_cached', 'off') == 'on':
             print("Using cached search")
         else:

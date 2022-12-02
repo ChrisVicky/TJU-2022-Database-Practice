@@ -7,6 +7,7 @@ from utils import u_from_fu, f_from_fu
 from models.procedures import add_tag, create_new_post
 from models import db
 from models import procedures
+
 try:
     from utils.ML import get_emb
 except:
@@ -16,6 +17,8 @@ import re
 import time
 from pathlib import Path
 import pickle
+
+from .prevent_sql_injection import sql_injection_check
 
 postpage = Blueprint('postpage', __name__)
 
@@ -188,9 +191,9 @@ def postEdit(pid, pfid):
         return render_template('500.html', msg="Not Your Post, can't Edit it")
 
     if request.method == 'POST':
-        title = request.form['title']
-        tags = request.form['tags']
-        body = request.form['body']
+        _, title = sql_injection_check(request.form['title'])
+        _, tags = sql_injection_check(request.form['tags'])
+        _, body = sql_injection_check(request.form['body'])
         post.title = title
         post.tags = tags
         post.body = body
@@ -233,8 +236,8 @@ def leaveComment():
     if fid != ufid:
         return render_template('500.html', msg="和你的Field不同，你不能評論")
     comment = request.form['comment']
+    _, comment = sql_injection_check(comment)
     procedures.create_comment(fid, pid, user.id, comment)
     ppid = request.args.get('ppid')
     pfid = request.args.get('pfid')
     return redirect(url_for('postpage.postIndex', id=ppid, fid=pfid))
-

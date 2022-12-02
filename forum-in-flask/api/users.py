@@ -5,8 +5,10 @@ from utils import u_from_fu, f_from_fu, fu_in_one
 from utils import log
 from models import procedures
 from models import db
+from .prevent_sql_injection import sql_injection_check
 
 userpage = Blueprint("userpage", __name__)
+
 
 ##
 # @brief Get information of current user
@@ -18,8 +20,7 @@ def userIndex():
     fuid = int(fuid)
     user = UserService.getUserByUid(u_from_fu(fuid), f_from_fu(fuid))
     posts = PostService.getPostsByUserId(user.fieldid, user.id)
-    return render_template("user.html", user = user, posts=posts)
-
+    return render_template("user.html", user=user, posts=posts)
 
 
 ##
@@ -39,9 +40,6 @@ def userInfo(id, fid):
     return render_template("otheruser.html", user=user, posts=posts)
 
 
-
-
-
 ##
 # @brief user Registration
 @userpage.route("/register", methods=('POST', 'GET'))
@@ -51,16 +49,16 @@ def userRegister():
         if fuid:
             fuid = int(fuid)
             user = UserService.getUserByUid(u_from_fu(fuid), f_from_fu(fuid))
-            return render_template("user.html", user = user)
-        if request.method=='POST':
+            return render_template("user.html", user=user)
+        if request.method == 'POST':
             fid = request.form['fieldid']
             if fid:
                 fid = int(fid)
             else:
                 return render_template('500.html', msg="fid must be int")
-            nickname = request.form['nickname']
-            username = request.form['username']
-            password = request.form['password']
+            _, nickname = sql_injection_check(request.form['nickname'])
+            _, username = sql_injection_check(request.form['username'])
+            _, password = sql_injection_check(request.form['password'])
             procedures.create_user(fid, nickname, username, password)
             return redirect(url_for('loginpage.login', username=username, password=password), code=307)
     except Exception as e:
@@ -71,7 +69,7 @@ def userRegister():
         else:
             return render_template('500.html', msg=str(e))
     return render_template('register.html')
-        
+
 
 ##
 # @brief Edit your user inform
@@ -84,17 +82,11 @@ def userEdit():
     uid = u_from_fu(fuid)
     fid = f_from_fu(fuid)
     user = UserService.getUserByUid(uid, fid)
-    if request.method=='POST':
-        nickname = request.form['nickname']
-        aboutme = request.form['aboutme']
+    if request.method == 'POST':
+        _, nickname = sql_injection_check(request.form['nickname'])
+        _, aboutme = sql_injection_check(request.form['aboutme'])
         user.aboutme = aboutme
         user.displayname = nickname
         db.session.commit()
         return redirect(url_for('userpage.userIndex'))
     return render_template('editUser.html', user=user)
-        
-
-
-
-
-

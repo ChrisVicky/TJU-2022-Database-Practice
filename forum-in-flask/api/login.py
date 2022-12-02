@@ -9,6 +9,7 @@ from api.service import UserService
 from utils import fu_in_one
 from models.users import Users
 from utils import log
+from .prevent_sql_injection import sql_injection_check
 loginpage = Blueprint('loginpage', __name__)
 
 ##
@@ -28,6 +29,7 @@ def login():
             return render_template("display_exception.html", msg="登录有误，请检查用户名和密码")
         log(f"Login Success: {user.id}")
         ckstring = str(fu_in_one(user.fieldid, user.id))
+        _, ckstring = sql_injection_check(ckstring)
         log(f"ckstring: {ckstring}")
         res = make_response(redirect(url_for('userpage.userIndex')))
         res.set_cookie('fuid', ckstring)
