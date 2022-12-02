@@ -11,7 +11,7 @@
 <div class="content">
 	<div class="post">
 
-		<p><b>#{{ post.id }}  | comments: {{post.commentcount}} | answers: {{post.answercount}}</b></p>
+		<p><b>#{{ post.id }}  | comments: {{post.commentcount}} | answers: {{post.answercount}} | fieldid: {{post.fieldid}} (Your field:{{user.fieldid}})</b></p>
 		{% if post.tags_list %}
 		<p>
 		{% for t in post.tags_list %}
@@ -26,9 +26,9 @@
 			{% endautoescape %}
 		</div>
 		{% if user %}
-			{% if user.id == post.owneruserid%}
-  				<a href="{{ url_for('postpage.postEdit', pid=post.id, pfid=post.fieldid) }}">Edit This Post</a>
-			{% endif %}
+		{% if user.id == post.owneruserid%}
+		<a href="{{ url_for('postpage.postEdit', pid=post.id, pfid=post.fieldid) }}">Edit This Post</a>
+		{% endif %}
 		{% endif %}
 		<h3>comment</h3>
 		{%for comment in post.comment_list%}
@@ -40,12 +40,13 @@
 			</p>
 		</div>
 		{%endfor%}
-
+		{% if user.fieldid == post.fieldid %}
 		<form action="{{ url_for('postpage.leaveComment',  pid=post.id, fid=post.fieldid, ppid=post.id, pfid=post.fieldid) }}", method="POST">
 			<label for="comment">Leave Your Comment Here</label>
 			<input type="text" id="comment" name="comment"><br><br>
 			<input type="submit" value="Comment">
 		</form>
+		{%endif%}
 	</div>
 </div>
 
@@ -72,11 +73,15 @@
 		</div>
 		{%endfor%}
 
+		{% if user %}
+		{% if user.fieldid == p.fieldid %}
 		<form action="{{ url_for('postpage.leaveComment',  pid=p.id, fid=p.fieldid, ppid=post.id, pfid=post.fieldid) }}", method="POST">
 			<label for="comment">Leave Your Comment Here</label>
 			<input type="text" id="comment" name="comment"><br><br>
 			<input type="submit" value="Comment">
 		</form>
+		{%endif%}
+		{%endif%}
 	</div>
 	{%if p.answers %}
 	{{loop(p.answers)}}
