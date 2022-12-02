@@ -53,6 +53,7 @@ def getPost(id, fid):
         post.date = translateTime(post.creationdate)
         # 获取评论
         post.comment_list = CommentService.getCommentByPostId(id, post.fieldid)
+        log("answers got")
         post.answers = getPostByParentId(id, post.fieldid)
         if post.answercount is None:
             post.answercount = 0
@@ -74,14 +75,13 @@ def getPost(id, fid):
 def getPostByParentId(id, fieldid):
     post_list = Posts.query.filter(Posts.parentid==id,Posts.fieldid==fieldid).all()
     for p in post_list:
-        p.author = Users.query.filter_by(id=p.owneruserid)[0].displayname
+        try:
+            p.author = Users.query.filter_by(id=p.owneruserid)[0].displayname
+        except:
+            p.author = None
         p.date = translateTime(p.creationdate)
         p.comment_list = CommentService.getCommentByPostId(p.id, p.fieldid)
         p.commentcount = len(p.comment_list)
-        log(f"Found Comments: {len(p.comment_list)}")
-        p.answers = getPostByParentId(p.id, p.fieldid)
-        p.answercount = len(p.answers)
-        log(f"Fount Answers: {len(p.answers)}")
     return post_list
 
 

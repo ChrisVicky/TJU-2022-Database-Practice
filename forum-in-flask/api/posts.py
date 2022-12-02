@@ -6,6 +6,7 @@ from utils import tag2tag
 from utils import u_from_fu, f_from_fu
 from models.procedures import add_tag, create_new_post
 from models import db
+from models import procedures
 try:
     from utils.ML import get_emb
 except:
@@ -105,7 +106,14 @@ def postIndex(id, fid):
     errorcode, post = PostService.getPost(id, fid)
     if errorcode == 1:
         return render_template('500.html', msg=post)
-    return render_template('post.html', post=post)
+    fuid = request.cookies.get('fuid')
+    if fuid is None:
+        return render_template('post.html', post=post)
+    fuid = int(fuid)
+    uid = u_from_fu(fuid)
+    fid = f_from_fu(fuid)
+    user = UserService.getUserByUid(uid, fid)
+    return render_template('post.html', post=post, user=user)
 
 
 ##
@@ -155,15 +163,15 @@ def postCreation():
             db.session.commit()
         except Exception as e:
             pass
-        return render_template('post.html', post=post)
+        return render_template('post.html', post=post, user=user)
 
     return render_template('create.html')
 
 
 ##
 # @brief Edit Post
-@postpage.route("/edit", methods=('POST', 'GET'))
-def postEdit(pid, fid):
+@postpage.route("/edit/<int:pid>/<int:pfid>", methods=('POST', 'GET'))
+def postEdit(pid, pfid):
     fuid = request.cookies.get('fuid')
     if fuid is None:
         return render_template(url_for('loginpage.login'))
@@ -171,7 +179,9 @@ def postEdit(pid, fid):
     uid = u_from_fu(fuid)
     fid = f_from_fu(fuid)
 
-    post = PostService.getPost(pid, fid)
+    errorcode, post = PostService.getPost(pid, pfid)
+    if errorcode:
+        return render_template("500.html", msg="Interval Error")
     if post is None:
         return render_template('500.html', msg="post not exist")
     if post.fieldid != fid or post.owneruserid != uid:
@@ -207,3 +217,24 @@ def postTop(id=1):
         return render_template('500.html', msg=page_num)
     return render_template('hotposts.html', currPage=page_num, totalRecords=each_page, totalPage=total_page,
                            posts=post_list)
+
+
+@postpage.route("/comment", methods=['POST'])
+def leaveComment():
+    fuid = request.cookies.get('fuid')
+    if fuid is None:
+        return redirect(url_for('loginpage.login'))
+    fuid = int(fuid)
+    uid = u_from_fu(fuid)
+    ufid = f_from_fu(fuid)
+    user = UserService.getUserByUid(uid, ufid)
+    pid = request.args.get('pid')
+    fid = request.args.get('fid')
+    if fid != ufid:
+        return render_template('500.html', msg="和你的Field不同，你不能評論")
+    comment = request.form['comment']
+    procedures.create_comment(fid, pid, user.id, comment)
+    ppid = request.args.get('ppid')
+    pfid = request.args.get('pfid')
+    return redirect(url_for('postpage.postIndex', id=ppid, fid=pfid))
+

@@ -22,14 +22,10 @@
 		  placeholder="&lt;tag1&gt;&lt;tag2&gt;&lt;tag3&gt;"
 		  rows="3"
 		  cols="60"
-		  >
-        {%for t in post.tag_list%}
-        <{{t}}>
-        {%endfor%}
-      </textarea>
+		  >{%for t in post.tags_list%}<{{t.tagname}}>{%endfor%}</textarea>
 	</p>
         <p>
-        <label for="bio">Content</label>
+        <label for="bio">Content - in HTML</label>
         <br>
         <textarea name="body"
                   placeholder=""
