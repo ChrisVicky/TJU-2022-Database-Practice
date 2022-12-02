@@ -163,7 +163,7 @@ def postCreation():
             db.session.commit()
         except Exception as e:
             pass
-        return render_template('post.html', post=post)
+        return render_template('post.html', post=post, user=user)
 
     return render_template('create.html')
 
