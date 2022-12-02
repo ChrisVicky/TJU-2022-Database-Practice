@@ -133,7 +133,6 @@ def postCreation():
         # tags = request.form['tags']
         tags = request.form['tags']
         body = request.form['body']
-        body.replace('\r\n', '<br>')
         uid = u_from_fu(fuid)
         try:
             create_new_post(fid, title, tags, body, uid)
@@ -192,7 +191,6 @@ def postEdit(pid, pfid):
         title = request.form['title']
         tags = request.form['tags']
         body = request.form['body']
-        body.replace('\r\n', '<br>')
         post.title = title
         post.tags = tags
         post.body = body

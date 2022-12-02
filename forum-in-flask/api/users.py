@@ -87,7 +87,6 @@ def userEdit():
     if request.method=='POST':
         nickname = request.form['nickname']
         aboutme = request.form['aboutme']
-        aboutme.replace('\r\n', '<br>')
         user.aboutme = aboutme
         user.displayname = nickname
         db.session.commit()
