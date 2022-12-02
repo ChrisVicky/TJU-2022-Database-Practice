@@ -171,7 +171,7 @@ def postCreation():
             pass
         return render_template('post.html', post=post, user=user)
 
-    return render_template('create.html')
+    return render_template('create.html', user=user)
 
 
 ##
@@ -185,6 +185,7 @@ def postEdit(pid, pfid):
     uid = u_from_fu(fuid)
     fid = f_from_fu(fuid)
 
+    user = UserService.getUserByUid(uid, fid)
     errorcode, post = PostService.getPost(pid, pfid)
     if errorcode:
         return render_template("500.html", msg="Interval Error")
@@ -201,16 +202,18 @@ def postEdit(pid, pfid):
         post.tags = tags
         post.body = body
 
-        emb = get_emb([title])[0]
-        seman_entity = SemanticEmbeddings.query.filter(SemanticEmbeddings.fieldid == post.fieldid,
-                                                       SemanticEmbeddings.postid == post.id).one()
-        if seman_entity is None:
-            return render_template('500.html', msg="Semantic Not exist Error")
-        seman_entity.embedding = emb
-
-        db.session.commit()
+        try:
+            emb = get_emb([title])[0]
+            seman_entity = SemanticEmbeddings.query.filter(SemanticEmbeddings.fieldid == post.fieldid,
+                                                           SemanticEmbeddings.postid == post.id).one()
+            if seman_entity is None:
+                return render_template('500.html', msg="Semantic Not exist Error")
+            seman_entity.embedding = emb
+            db.session.commit()
+        except Exception as e:
+            return render_template('500.html', msg="不能为空")
         return redirect(url_for('postpage.postIndex', id=post.id, fid=post.fieldid))
-    return render_template('editPost.html', post=post)
+    return render_template('editPost.html', post=post,  user=user)
 
 
 @postpage.route("/top/")

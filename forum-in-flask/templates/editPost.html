@@ -7,6 +7,14 @@
         {% endblock %}
     </h1>
 <center style="width:100%">
+
+<div class="content">
+  <div class="post">
+	  <h2>Your Information</h2>
+	  <p><b>#{{ user.id }} | reputation: {{user.reputation}} | field: {{ user.fieldid }}</b></p>
+    <p>Joint at: [{{ user.date }}] GMT</p>
+  </div>
+</div>
     <form method="post">
         <p>
             <label for="title">Title</label>
