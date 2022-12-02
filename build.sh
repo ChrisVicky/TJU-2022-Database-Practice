@@ -15,7 +15,7 @@ docker build -t $name_img .
 docker run -itd \
 	--name $name_run \
 	-v /home/shujuku/forum-in-flask/cached_posts:/cached_posts \
-	-v /home/shujuku/forum-in-flask/cached_search:/caced_search \
+	-v /home/shujuku/forum-in-flask/cached_search:/cached_search \
 	-p ${port}:${portin} \
 	$name_img:latest
 
