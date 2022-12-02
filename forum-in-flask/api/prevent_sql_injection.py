@@ -6,7 +6,9 @@ def sql_injection_check(input_str: str) -> (bool, str):
     :param input_str: input string
     :return: (True, replaced string) if SQL injection is detected, otherwise (False, '')
     """
-    sql_injection_pattern = re.compile(r"('|;|--|/\*|\*/|xp_cmdshell|exec|execute|insert|select|delete|update|count|)")
+    sql_injection_pattern = re.compile(r"('|;|--|/\*|\*/|xp_cmdshell|exec|execute|insert|select|delete|update|count|SELECT"
+                                       r"|DELETE|UPDATE|COUNT|DROP|drop database|truncate|asc|mid|char|xp_cmdshell|"
+                                       r"exec master|net localgroup administrators|:|net user)")
     if sql_injection_pattern.search(input_str):
         return True, sql_injection_pattern.sub('', input_str)
     else:
