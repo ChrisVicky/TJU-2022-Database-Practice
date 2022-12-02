@@ -132,10 +132,12 @@ def postCreation():
     user = UserService.getUserByUid(uid, fid)
     if request.method == 'POST':
         fid = f_from_fu(fuid)
-        title = request.form['title']
+        _, title = sql_injection_check(request.form['title'])
         # tags = request.form['tags']
         tags = request.form['tags']
+        _, tags = sql_injection_check(tags)
         body = request.form['body']
+        _, body = sql_injection_check(body)
         uid = u_from_fu(fuid)
         try:
             create_new_post(fid, title, tags, body, uid)
