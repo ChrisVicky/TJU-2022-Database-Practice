@@ -2,7 +2,7 @@ import requests
 import time
 import threading
 
-url_root = 'http://172.23.245.127:8085/post/page/'
+url_root = 'http://localhost:8085/post/page/'
 cached_page_nums = [1, 2, 3, 4]
 
 headers = {
@@ -16,7 +16,7 @@ def refresh_thread():
             url = f"{url_root}{page_num}"
             requests.get(url, headers=headers)
             print('refreshed page: ', url)
-            time.sleep(1)
+            time.sleep(5)
 
 for i in range(1):
     t = threading.Thread(target=refresh_thread)
