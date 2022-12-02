@@ -48,6 +48,8 @@ def getAllPost(offset:int=0, limit:int=10):
 def getPost(id, fid):
     try:
         post = Posts.query.filter(Posts.id==id, Posts.fieldid==fid).first()
+        if post is None:
+            return 1, "该 POST 已经被清理，请将快速查找功能关闭再试"
         author = Users.query.filter(Users.id==post.owneruserid, Users.fieldid==post.fieldid).first()
         post.author = author.displayname
         post.date = translateTime(post.creationdate)

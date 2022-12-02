@@ -17,6 +17,7 @@ import re
 import time
 from pathlib import Path
 import pickle
+from utils import log
 
 from .prevent_sql_injection import sql_injection_check
 
@@ -233,8 +234,9 @@ def leaveComment():
     uid = u_from_fu(fuid)
     ufid = f_from_fu(fuid)
     user = UserService.getUserByUid(uid, ufid)
-    pid = request.args.get('pid')
-    fid = request.args.get('fid')
+    pid = int(request.args.get('pid'))
+    fid = int(request.args.get('fid'))
+    log(f"{fid}: {ufid}")
     if fid != ufid:
         return render_template('500.html', msg="和你的Field不同，你不能評論")
     comment = request.form['comment']
