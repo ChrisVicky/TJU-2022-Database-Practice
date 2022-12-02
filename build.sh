@@ -10,8 +10,14 @@ path=`pwd`
 port=8087
 portin=8085
 
-echo docker build -t $name_img .
 docker build -t $name_img .
 
-echo docker run -itd --name $name_run -p ${port}:${portin} $name_img:latest
-docker run -itd --name $name_run -p ${port}:${portin} $name_img:latest
+docker run -itd \
+	--name $name_run \
+	-v /home/shujuku/forum-in-flask/cached_posts:/cached_posts \
+	-v /home/shujuku/forum-in-flask/cached_search:/caced_search \
+	-p ${port}:${portin} \
+	$name_img:latest
+
+
+
