@@ -56,9 +56,17 @@
 </pre>
 
 ## Deploy via Docker
-* default port: 8087
+* config.py
+
+```shell
+cd ./forum-in-flask
+cp config_example.py config.py
+```
+* Modify `SECRET_KEY` and `SQLALCHEMY_DATABASE_URI` then run following command
+
 ```shell
 make docker
 ```
+* default port: 8087
 
 
