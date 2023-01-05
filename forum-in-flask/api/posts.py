@@ -112,7 +112,7 @@ def postIndex(id, fid):
         return render_template('500.html', msg=post)
     fuid = request.cookies.get('fuid')
     if fuid is None:
-        return render_template('post.html', post=post)
+        return render_template('post.html', post=post, user=None)
     fuid = int(fuid)
     uid = u_from_fu(fuid)
     fid = f_from_fu(fuid)
