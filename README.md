@@ -69,4 +69,6 @@ make docker
 ```
 * default port: 8087
 
+## Database SQLs
 
+Refer to https://github.com/fkcptlst/db_exercise
